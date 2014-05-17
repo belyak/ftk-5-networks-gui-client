@@ -112,7 +112,7 @@ public class LGSBaseConnection {
         is_multiline = line.charAt(3) == '-';
         
         if (is_multiline) {
-            String final_str_start = line.substring(0, 4);
+            String final_str_start = line.substring(0, 3) + " ";
             while(true) {
                 line = readLine();
                 lines.add(line);

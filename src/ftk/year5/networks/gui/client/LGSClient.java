@@ -19,7 +19,7 @@ public class LGSClient {
         ServerResponse response = conn.getResponse();
         System.out.println(response);
         
-        conn.putLineCommand("oop oop oop abba");
+        conn.putLineCommand("oop oop oop abba a1 a2 a3");
         response = conn.getResponse();
         System.out.println(response);
         
