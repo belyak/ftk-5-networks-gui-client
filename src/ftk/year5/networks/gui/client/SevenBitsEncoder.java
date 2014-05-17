@@ -14,7 +14,7 @@ public class SevenBitsEncoder {
         int result_offset = 0;
         int bit_position = 6;
         int out_byte = 0;
-        for (boolean bitIsSet: new MessageBitIterator(message)) {
+        for (boolean bitIsSet: new MessageBitIterator(message, 8)) {
             if (bitIsSet) {
                 out_byte += (1 << bit_position);
             }
@@ -29,6 +29,23 @@ public class SevenBitsEncoder {
         return result;
     }
     public int [] decode(int [] in_bytes) {
-        return new int [22];
+        int encodedLength = ((int)floor(((double)in_bytes.length)/8))*7;
+        int [] result = new int[encodedLength];
+        int result_offset = 0;
+        int bit_position = 7;
+        int out_byte = 0;
+        for (boolean bitIsSet: new MessageBitIterator(in_bytes, 7)) {
+            if (bitIsSet) {
+                out_byte += (1 << bit_position);
+            }
+            bit_position--;
+            if (bit_position < 0) {
+                bit_position = 7;
+                result[result_offset] = out_byte;
+                result_offset++;
+                out_byte = 0;
+            }
+        }
+        return result;
     }
 }
