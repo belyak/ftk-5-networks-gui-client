@@ -11,6 +11,7 @@ public class SevenBitsEncoderTest {
     int [] encoded7Bits;
     
     public SevenBitsEncoderTest() {
+        
     }
     
     @Before
@@ -19,19 +20,8 @@ public class SevenBitsEncoderTest {
         // определим последовательность байт для кодирования и 
         // последовательность декодированных байт для использования в тестовых
         // методах:
-        messageToEncode = new int [7];
-        for (int i = 0; i < 7; i ++) {
-            messageToEncode[i] = 200; // байт в Java имеет знак
-        }
-        encoded7Bits = new int[8];
-        encoded7Bits[0] = 100;
-        encoded7Bits[1] = 50;
-        encoded7Bits[2] = 25;
-        encoded7Bits[3] = 12;
-        encoded7Bits[4] = 70;
-        encoded7Bits[5] = 35;
-        encoded7Bits[6] = 17;
-        encoded7Bits[7] = 72;
+        messageToEncode = new int[]{200, 200, 200, 200, 200, 200, 200};
+        encoded7Bits = new int[]{100, 50, 25, 12, 70, 35, 17, 72};
         
     }
 
@@ -46,6 +36,24 @@ public class SevenBitsEncoderTest {
         assertArrayEquals(encoded7Bits, result);
     }
 
+    /**
+     * проверка кодирования сообщения не кратного по длине 7 байтам.
+     */
+    @Test
+    public void testEncodeNonDivisibleCase() {
+        int [] originalMessage = {
+            Character.getNumericValue('Y'),
+            Character.getNumericValue('E'),
+            Character.getNumericValue('S'),
+            Character.getNumericValue('\r'),
+            Character.getNumericValue('\n')
+        };
+        int [] encodedMessage = {44, 81, 42, 50, 1, 0, 26, 10};
+        int [] result = converter.encode(originalMessage);
+        
+        assertArrayEquals(encodedMessage, result);
+    }
+    
     /**
      * Проверка декодирования сообщения
      */
