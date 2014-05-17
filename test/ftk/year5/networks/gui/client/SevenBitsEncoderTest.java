@@ -42,11 +42,11 @@ public class SevenBitsEncoderTest {
     @Test
     public void testEncodeNonDivisibleCase() {
         int [] originalMessage = {
-            Character.getNumericValue('Y'),
-            Character.getNumericValue('E'),
-            Character.getNumericValue('S'),
-            Character.getNumericValue('\r'),
-            Character.getNumericValue('\n')
+            89, // 'Y'
+            69, // 'E'
+            83, // 'S'
+            13, // '\r'
+            10  // '\n'
         };
         int [] encodedMessage = {44, 81, 42, 50, 1, 0, 26, 10};
         int [] result = converter.encode(originalMessage);
