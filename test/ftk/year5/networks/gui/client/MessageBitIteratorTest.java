@@ -32,7 +32,9 @@ public class MessageBitIteratorTest {
             false, false, false, false, false, false, false, true  // 1
         };
         int count = 0;
-        for (boolean bitIsSet: new MessageBitIterator(inSequence)) {
+        int bits_to_iterate = 8;
+        MessageBitIterator mbi = new MessageBitIterator(inSequence, bits_to_iterate);
+        for (boolean bitIsSet: mbi) {
             StringBuilder sb = new StringBuilder();
             sb.append("Failed at count ");
             sb.append(count);

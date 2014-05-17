@@ -7,17 +7,23 @@ public class MessageBitIterator implements Iterator<Boolean>, Iterable<Boolean> 
     
     private final int intSequence[];
     private final int bitSequenceLength;
-    private int currentIntOffset = 0;
-    private byte currentBitOffset = 7;
+    private int currentIntOffset;
+    private byte currentBitOffset;
     
-    public MessageBitIterator(int [] sequence) {
+    protected byte BITS_TO_ITERATE;
+    
+    public MessageBitIterator(int [] sequence, int bits_to_iterate) {
         intSequence = sequence;
-        bitSequenceLength = sequence.length * 8;
+        currentIntOffset = 0;
+        BITS_TO_ITERATE = (byte) bits_to_iterate;
+        bitSequenceLength = sequence.length * BITS_TO_ITERATE;
+        currentBitOffset = (byte) (BITS_TO_ITERATE - 1);
     }
     
     @Override
     public boolean hasNext() {
-        return (currentIntOffset*8 + currentBitOffset) < bitSequenceLength;
+        int absoluteBitOffset = (currentIntOffset*BITS_TO_ITERATE + currentBitOffset);
+        return absoluteBitOffset < bitSequenceLength;
     }
 
     @Override
@@ -26,7 +32,7 @@ public class MessageBitIterator implements Iterator<Boolean>, Iterable<Boolean> 
         boolean bitIsSet = ((currentInt >> currentBitOffset) & 1) != 0;
         currentBitOffset--;
         if (currentBitOffset < 0) {
-            currentBitOffset = 7;
+            currentBitOffset = (byte) (BITS_TO_ITERATE - 1);
             currentIntOffset++;
         }
         return bitIsSet;
