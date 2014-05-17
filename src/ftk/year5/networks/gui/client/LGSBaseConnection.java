@@ -12,6 +12,8 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
 import java.net.Socket;
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * Соединение с сервером с возможностью отправки комманд и получения ответа.
@@ -83,7 +85,7 @@ public class LGSBaseConnection {
         return new ServerResponse(readMessage());
     }
     
-    private String readMessage() throws IOException {
+    private String readLine() throws IOException {
         StringBuilder buffer = new StringBuilder();
         
         byte response;
@@ -97,12 +99,40 @@ public class LGSBaseConnection {
                 }
             }
         }
+    }
+    
+    private String readMessage() throws IOException {
+        StringBuilder buffer = new StringBuilder();
+        boolean is_multiline;
+        List<String> lines = new ArrayList<>();
         
+        String line = readLine();
+        lines.add(line);
+        
+        is_multiline = line.charAt(3) == '-';
+        
+        if (is_multiline) {
+            String final_str_start = line.substring(0, 4);
+            while(true) {
+                line = readLine();
+                lines.add(line);
+                if (line.substring(0, 4).equals(final_str_start)) {
+                    break;
+                }
+            }
+        } else {
+            return line;
+        }
+        StringBuilder result = new StringBuilder();
+        for (String result_line: lines) {
+            result.append(result_line);
+        }
+        return new String(result);
     }
     
     private void sendLine(String line) throws IOException {
         StringBuilder sb = new StringBuilder(line);
-        sb.append("\r\n");
+        sb.append(ServerResponse.LINES_DELIMITER);
         String msg = new String(sb);
         out.writeBytes(msg);
         out.flush();

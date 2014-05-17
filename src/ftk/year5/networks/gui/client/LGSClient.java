@@ -10,7 +10,7 @@ public class LGSClient {
      */
     public static void main(String[] args) throws IOException {
 
-        LGSConnection conn = new LGSConnection("andrey-linux", 8020);
+        LGSConnection conn = new LGSConnection("andrey-linux", 8021);
         conn.connect();
         ServerResponse bannerResponse = conn.getResponse();
         System.out.println(bannerResponse);

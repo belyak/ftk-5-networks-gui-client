@@ -16,7 +16,7 @@ public class ServerResponseTest {
     
     @Test
     public void testServerResponseMultiLine() {
-        String message = "220-Test\nmulti\n220 lines\r\n";
+        String message = "220-Test\r\nmulti\r\n220 lines\r\n";
         ServerResponse sr = new ServerResponse(message);
         assertEquals(sr.code, 220);
         assertEquals(sr.is_multiline, true);
