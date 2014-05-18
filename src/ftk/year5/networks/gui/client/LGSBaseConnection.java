@@ -28,6 +28,7 @@ public class LGSBaseConnection {
     
     protected DataInputStream in;
     protected DataOutputStream out;
+    protected SevenBitsEncoder sbits_encoder;
     
     /**
      * Конструктор соединения
@@ -38,6 +39,7 @@ public class LGSBaseConnection {
     public LGSBaseConnection(String host, int port) {
         this.host = host;
         this.port = port;
+        this.sbits_encoder = new SevenBitsEncoder();
     }
     
     /**
@@ -88,11 +90,23 @@ public class LGSBaseConnection {
     private String readLine() throws IOException {
         StringBuilder buffer = new StringBuilder();
         
-        byte response;
+        byte in_byte;
+        int [] encoded_message_part = new int[8];
+        int [] decoded_messgae_part = new int[7];
         
         while (true) {
-            response = in.readByte();
-            buffer.append((char) response);
+            
+            for (int i = 0; i < 8; i++) {
+                in_byte = in.readByte();
+                encoded_message_part[i] = (int) in_byte;
+            }
+            decoded_messgae_part = sbits_encoder.decode(encoded_message_part);
+            for (int in_int: decoded_messgae_part) {
+                char in_char = (char) in_int;
+                buffer.append(in_char);
+            }
+            
+            //buffer.append((char) in_byte);
             if (buffer.length() > 2) {
                 if (buffer.charAt(buffer.length() - 2) == '\r' && buffer.charAt(buffer.length() - 1) == '\n') {
                     return new String(buffer);

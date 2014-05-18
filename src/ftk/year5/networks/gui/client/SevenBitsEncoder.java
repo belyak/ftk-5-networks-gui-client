@@ -1,7 +1,5 @@
 package ftk.year5.networks.gui.client;
 
-import static java.lang.Math.floor;
-
 public class SevenBitsEncoder {
     public SevenBitsEncoder() {
     }
@@ -30,7 +28,7 @@ public class SevenBitsEncoder {
         // определим длину кодированного сообщения как округленное вверх
         // значение частное от деления длины некодированного сообщения на 7
         // и умноженное на 8 (каждые 7 байт кодируются в 8 байт).
-        int encodedLength = ((int)floor(((double)in_message.length)/7))*8;
+        int encodedLength = in_message.length / 7 * 8;
         int [] result = new int[encodedLength];
         
         int result_offset = 0;
@@ -51,7 +49,7 @@ public class SevenBitsEncoder {
         return result;
     }
     public int [] decode(int [] in_bytes) {
-        int encodedLength = ((int)floor(((double)in_bytes.length)/8))*7;
+        int encodedLength = in_bytes.length / 8 * 7;
         int [] result = new int[encodedLength];
         int result_offset = 0;
         int bit_position = 7;
