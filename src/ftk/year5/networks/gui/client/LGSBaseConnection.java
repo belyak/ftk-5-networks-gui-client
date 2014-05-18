@@ -92,7 +92,7 @@ public class LGSBaseConnection {
         
         byte in_byte;
         int [] encoded_message_part = new int[8];
-        int [] decoded_messgae_part = new int[7];
+        int [] decoded_message_part;
         
         while (true) {
             
@@ -100,8 +100,8 @@ public class LGSBaseConnection {
                 in_byte = in.readByte();
                 encoded_message_part[i] = (int) in_byte;
             }
-            decoded_messgae_part = sbits_encoder.decode(encoded_message_part);
-            for (int in_int: decoded_messgae_part) {
+            decoded_message_part = sbits_encoder.decode(encoded_message_part);
+            for (int in_int: decoded_message_part) {
                 char in_char = (char) in_int;
                 buffer.append(in_char);
             }
@@ -147,8 +147,17 @@ public class LGSBaseConnection {
     private void sendLine(String line) throws IOException {
         StringBuilder sb = new StringBuilder(line);
         sb.append(ServerResponse.LINES_DELIMITER);
-        String msg = new String(sb);
-        out.writeBytes(msg);
+        String str_msg = new String(sb);
+        int [] message = new int[str_msg.length()];
+        for (int i = 0; i < message.length; i++) {
+            message[i] = str_msg.charAt(i);
+        }
+        int [] encoded_message = sbits_encoder.encode(message);
+        byte [] msg = new byte[encoded_message.length];
+        for (int i = 0; i < encoded_message.length; i++) {
+            msg[i] = (byte) encoded_message[i];
+        }
+        out.write(msg);
         out.flush();
     }
 }
