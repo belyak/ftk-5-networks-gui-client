@@ -107,7 +107,7 @@ public class LGSBaseConnection {
     }
     
     private String readLine() throws IOException {
-        StringBuilder buffer = new StringBuilder();
+        List<Byte> collectedBytes = new ArrayList<>();
        
         int chunkSize = currentConverter.get_chunk_size();
         
@@ -123,14 +123,19 @@ public class LGSBaseConnection {
             }
             decoded_message_part = currentConverter.decode(encoded_message_part);
             for (int in_int: decoded_message_part) {
-                char in_char = (char) in_int;
-                buffer.append(in_char);
+                in_byte = (byte) in_int;
+                collectedBytes.add(in_byte);
             }
             
             //buffer.append((char) in_byte);
-            if (buffer.length() > 2) {
-                if (buffer.charAt(buffer.length() - 2) == '\r' && buffer.charAt(buffer.length() - 1) == '\n') {
-                    return new String(buffer);
+            if (collectedBytes.size() > 2) {
+                if (collectedBytes.get(collectedBytes.size() - 2) == '\r' 
+                        && collectedBytes.get(collectedBytes.size() - 1) == '\n') {
+                    byte [] result = new byte[collectedBytes.size()];
+                    for (int i = 0; i < collectedBytes.size(); i++) {
+                        result[i] = collectedBytes.get(i);
+                    }
+                    return new String(result, "UTF-8");
                 }
             }
         }
@@ -169,9 +174,13 @@ public class LGSBaseConnection {
         StringBuilder sb = new StringBuilder(line);
         sb.append(ServerResponse.LINES_DELIMITER);
         String str_msg = new String(sb);
-        int [] message = new int[str_msg.length()];
+        
+        byte [] str_bytes = str_msg.getBytes();
+        byte [] encodedString = new String(str_bytes, "UTF-8").getBytes();
+        
+        int [] message = new int[encodedString.length];
         for (int i = 0; i < message.length; i++) {
-            message[i] = str_msg.charAt(i);
+            message[i] = encodedString[i];
         }
         
         int [] encoded_message = currentConverter.encode(message);
