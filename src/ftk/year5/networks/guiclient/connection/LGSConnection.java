@@ -1,5 +1,6 @@
 package ftk.year5.networks.guiclient.connection;
 
+import ftk.year5.networks.guiclient.converters.ConverterInterface;
 import java.io.IOException;
 
 public class LGSConnection extends LGSBaseConnection {
@@ -16,6 +17,21 @@ public class LGSConnection extends LGSBaseConnection {
     public ServerResponse exitCommand() throws IOException {
         sendCommand("exit");
         return getResponse();
+    }
+    
+    public ServerResponse setModeCommand(ConverterInterface.MODE mode) throws IOException {
+        String mode_str = "plain";
+        switch (mode) {
+            case MODE_PLAIN: mode_str = "plain"; break;
+            case MODE_7BITS: mode_str = "7bit"; break;
+            case MODE_BASE64: mode_str = "base64"; break;
+        }
+        sendCommand("mode", mode_str);
+        ServerResponse response = getResponse();
+        if (response.code == 200) {
+            this.setConvertMode(mode);
+        }
+        return response;
     }
     
     public ServerResponse putLineCommand(String line) throws IOException {

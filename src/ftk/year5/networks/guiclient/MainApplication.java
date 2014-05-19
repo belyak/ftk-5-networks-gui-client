@@ -8,6 +8,7 @@ package ftk.year5.networks.guiclient;
 
 import ftk.year5.networks.guiclient.connection.LGSConnection;
 import ftk.year5.networks.guiclient.connection.ServerResponse;
+import ftk.year5.networks.guiclient.converters.ConverterInterface;
 import java.io.IOException;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -34,6 +35,7 @@ public class MainApplication extends javax.swing.JFrame {
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
+        transferModeButtonGroup = new javax.swing.ButtonGroup();
         jPanel1 = new javax.swing.JPanel();
         serverAddressField = new javax.swing.JTextField();
         connectButton = new javax.swing.JButton();
@@ -50,8 +52,12 @@ public class MainApplication extends javax.swing.JFrame {
         statisticsNameField = new javax.swing.JTextField();
         saveStatisticsButton = new javax.swing.JButton();
         loadStatisticsButton = new javax.swing.JButton();
-        jLabel1 = new javax.swing.JLabel();
+        statisticsNameLabel = new javax.swing.JLabel();
         mergeStatisticsButton = new javax.swing.JButton();
+        transferModeLabel = new javax.swing.JLabel();
+        plainModeRadioButton = new javax.swing.JRadioButton();
+        sevenBitModeRadioButton = new javax.swing.JRadioButton();
+        base64ModeRadioButton = new javax.swing.JRadioButton();
         menuBar = new javax.swing.JMenuBar();
         fileMenu = new javax.swing.JMenu();
         openMenuItem = new javax.swing.JMenuItem();
@@ -116,6 +122,7 @@ public class MainApplication extends javax.swing.JFrame {
         });
 
         versionLabel.setText("version unknown");
+        versionLabel.setEnabled(false);
 
         responsesTextArea.setColumns(20);
         responsesTextArea.setRows(5);
@@ -168,7 +175,8 @@ public class MainApplication extends javax.swing.JFrame {
             }
         });
 
-        jLabel1.setText("Statistics name:");
+        statisticsNameLabel.setText("Statistics name:");
+        statisticsNameLabel.setEnabled(false);
 
         mergeStatisticsButton.setText("merge statistics");
         mergeStatisticsButton.setEnabled(false);
@@ -178,40 +186,77 @@ public class MainApplication extends javax.swing.JFrame {
             }
         });
 
+        transferModeLabel.setText("transfer mode:");
+        transferModeLabel.setEnabled(false);
+
+        transferModeButtonGroup.add(plainModeRadioButton);
+        plainModeRadioButton.setSelected(true);
+        plainModeRadioButton.setText("plain mode");
+        plainModeRadioButton.setEnabled(false);
+        plainModeRadioButton.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                plainModeRadioButtonActionPerformed(evt);
+            }
+        });
+
+        transferModeButtonGroup.add(sevenBitModeRadioButton);
+        sevenBitModeRadioButton.setText("7bit mode");
+        sevenBitModeRadioButton.setEnabled(false);
+        sevenBitModeRadioButton.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                sevenBitModeRadioButtonActionPerformed(evt);
+            }
+        });
+
+        transferModeButtonGroup.add(base64ModeRadioButton);
+        base64ModeRadioButton.setText("base64 mode");
+        base64ModeRadioButton.setEnabled(false);
+        base64ModeRadioButton.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                base64ModeRadioButtonActionPerformed(evt);
+            }
+        });
+
         javax.swing.GroupLayout operationsPanelLayout = new javax.swing.GroupLayout(operationsPanel);
         operationsPanel.setLayout(operationsPanelLayout);
         operationsPanelLayout.setHorizontalGroup(
             operationsPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addComponent(jScrollPane1)
             .addGroup(operationsPanelLayout.createSequentialGroup()
-                .addContainerGap()
+                .addComponent(putLineField)
+                .addGap(18, 18, 18)
+                .addComponent(putLineButton))
+            .addGroup(operationsPanelLayout.createSequentialGroup()
+                .addComponent(statisticsNameLabel)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(statisticsNameField, javax.swing.GroupLayout.DEFAULT_SIZE, 112, Short.MAX_VALUE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(loadStatisticsButton)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(saveStatisticsButton)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(mergeStatisticsButton))
+            .addGroup(operationsPanelLayout.createSequentialGroup()
+                .addGap(6, 6, 6)
                 .addGroup(operationsPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(operationsPanelLayout.createSequentialGroup()
-                        .addComponent(putLineField)
+                        .addComponent(transferModeLabel)
                         .addGap(18, 18, 18)
-                        .addComponent(putLineButton))
+                        .addComponent(plainModeRadioButton)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                        .addComponent(sevenBitModeRadioButton)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                        .addComponent(base64ModeRadioButton))
                     .addGroup(operationsPanelLayout.createSequentialGroup()
-                        .addGroup(operationsPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addGroup(operationsPanelLayout.createSequentialGroup()
-                                .addComponent(getVersionButton)
-                                .addGap(18, 18, 18)
-                                .addComponent(versionLabel))
-                            .addGroup(operationsPanelLayout.createSequentialGroup()
-                                .addComponent(calculateStatisticsButtton)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                                .addComponent(printStatisticsButton)))
-                        .addGap(0, 0, Short.MAX_VALUE))
-                    .addGroup(operationsPanelLayout.createSequentialGroup()
-                        .addComponent(jLabel1)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(statisticsNameField, javax.swing.GroupLayout.DEFAULT_SIZE, 88, Short.MAX_VALUE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(loadStatisticsButton)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(saveStatisticsButton)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(mergeStatisticsButton)))
-                .addContainerGap())
+                        .addComponent(getVersionButton)
+                        .addGap(18, 18, 18)
+                        .addComponent(versionLabel)))
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+            .addGroup(operationsPanelLayout.createSequentialGroup()
+                .addComponent(calculateStatisticsButtton)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addComponent(printStatisticsButton)
+                .addGap(0, 0, Short.MAX_VALUE))
         );
         operationsPanelLayout.setVerticalGroup(
             operationsPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -222,9 +267,15 @@ public class MainApplication extends javax.swing.JFrame {
                     .addComponent(versionLabel))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addGroup(operationsPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(transferModeLabel)
+                    .addComponent(plainModeRadioButton)
+                    .addComponent(sevenBitModeRadioButton)
+                    .addComponent(base64ModeRadioButton))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addGroup(operationsPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(putLineField, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(putLineButton))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addGroup(operationsPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(calculateStatisticsButtton)
                     .addComponent(printStatisticsButton))
@@ -233,10 +284,10 @@ public class MainApplication extends javax.swing.JFrame {
                     .addComponent(statisticsNameField, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(saveStatisticsButton)
                     .addComponent(loadStatisticsButton)
-                    .addComponent(jLabel1)
+                    .addComponent(statisticsNameLabel)
                     .addComponent(mergeStatisticsButton))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 22, Short.MAX_VALUE)
-                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 133, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 173, Short.MAX_VALUE)
                 .addContainerGap())
         );
 
@@ -350,19 +401,33 @@ public class MainApplication extends javax.swing.JFrame {
     private void switchConnectedInterface(boolean isConnected) {
         serverAddressField.setEnabled(!isConnected);
         connectButton.setEnabled(!isConnected);
-        
         disconnectButton.setEnabled(isConnected);
+        
         operationsPanel.setEnabled(isConnected);
+        
         getVersionButton.setEnabled(isConnected);
+        versionLabel.setEnabled(isConnected);
+        
         putLineField.setEnabled(isConnected);
         putLineButton.setEnabled(isConnected);
+        
         calculateStatisticsButtton.setEnabled(isConnected);
         printStatisticsButton.setEnabled(isConnected);
+        
         saveStatisticsButton.setEnabled(isConnected);
         loadStatisticsButton.setEnabled(isConnected);
         mergeStatisticsButton.setEnabled(isConnected);
+        
         statisticsNameField.setEnabled(isConnected);
+        statisticsNameLabel.setEnabled(isConnected);
+        
         responsesTextArea.setEnabled(isConnected);
+        
+        transferModeLabel.setEnabled(isConnected);
+        plainModeRadioButton.setEnabled(isConnected);
+        sevenBitModeRadioButton.setEnabled(isConnected);
+        base64ModeRadioButton.setEnabled(isConnected);
+        
     }
     
     private void connectButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_connectButtonActionPerformed
@@ -458,6 +523,27 @@ public class MainApplication extends javax.swing.JFrame {
         }
     }//GEN-LAST:event_mergeStatisticsButtonActionPerformed
 
+    private void modeChangeActionPerformed(ConverterInterface.MODE mode) {
+        try {
+            ServerResponse response = connection.setModeCommand(mode);
+            printResponse(response);
+        } catch (IOException ex) {
+            Logger.getLogger(MainApplication.class.getName()).log(Level.SEVERE, null, ex);
+        }       
+    }
+    
+    private void plainModeRadioButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_plainModeRadioButtonActionPerformed
+        modeChangeActionPerformed(ConverterInterface.MODE.MODE_PLAIN);
+    }//GEN-LAST:event_plainModeRadioButtonActionPerformed
+
+    private void sevenBitModeRadioButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_sevenBitModeRadioButtonActionPerformed
+        modeChangeActionPerformed(ConverterInterface.MODE.MODE_7BITS);
+    }//GEN-LAST:event_sevenBitModeRadioButtonActionPerformed
+
+    private void base64ModeRadioButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_base64ModeRadioButtonActionPerformed
+        modeChangeActionPerformed(ConverterInterface.MODE.MODE_BASE64);
+    }//GEN-LAST:event_base64ModeRadioButtonActionPerformed
+
     /**
      * @param args the command line arguments
      */
@@ -487,6 +573,7 @@ public class MainApplication extends javax.swing.JFrame {
 
         /* Create and display the form */
         java.awt.EventQueue.invokeLater(new Runnable() {
+            @Override
             public void run() {
                 new MainApplication().setVisible(true);
             }
@@ -495,6 +582,7 @@ public class MainApplication extends javax.swing.JFrame {
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JMenuItem aboutMenuItem;
+    private javax.swing.JRadioButton base64ModeRadioButton;
     private javax.swing.JButton calculateStatisticsButtton;
     private javax.swing.JButton connectButton;
     private javax.swing.JMenuItem contentsMenuItem;
@@ -507,7 +595,6 @@ public class MainApplication extends javax.swing.JFrame {
     private javax.swing.JMenu fileMenu;
     private javax.swing.JButton getVersionButton;
     private javax.swing.JMenu helpMenu;
-    private javax.swing.JLabel jLabel1;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JButton loadStatisticsButton;
@@ -516,6 +603,7 @@ public class MainApplication extends javax.swing.JFrame {
     private javax.swing.JMenuItem openMenuItem;
     private javax.swing.JPanel operationsPanel;
     private javax.swing.JMenuItem pasteMenuItem;
+    private javax.swing.JRadioButton plainModeRadioButton;
     private javax.swing.JButton printStatisticsButton;
     private javax.swing.JButton putLineButton;
     private javax.swing.JTextField putLineField;
@@ -524,7 +612,11 @@ public class MainApplication extends javax.swing.JFrame {
     private javax.swing.JMenuItem saveMenuItem;
     private javax.swing.JButton saveStatisticsButton;
     private javax.swing.JTextField serverAddressField;
+    private javax.swing.JRadioButton sevenBitModeRadioButton;
     private javax.swing.JTextField statisticsNameField;
+    private javax.swing.JLabel statisticsNameLabel;
+    private javax.swing.ButtonGroup transferModeButtonGroup;
+    private javax.swing.JLabel transferModeLabel;
     private javax.swing.JLabel versionLabel;
     // End of variables declaration//GEN-END:variables
 
