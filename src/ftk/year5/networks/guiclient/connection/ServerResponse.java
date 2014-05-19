@@ -1,4 +1,4 @@
-package ftk.year5.networks.gui.client;
+package ftk.year5.networks.guiclient.connection;
 
 import java.util.ArrayList;
 import java.util.List;

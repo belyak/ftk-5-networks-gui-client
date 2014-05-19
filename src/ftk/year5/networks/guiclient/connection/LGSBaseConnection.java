@@ -4,7 +4,7 @@
  * and open the template in the editor.
  */
 
-package ftk.year5.networks.guiclient;
+package ftk.year5.networks.guiclient.connection;
 
 import ftk.year5.networks.guiclient.converters.ConverterInterface;
 import ftk.year5.networks.guiclient.converters.ConverterProvider;
@@ -64,6 +64,20 @@ public class LGSBaseConnection {
         out = new DataOutputStream(sout);
     }
     
+    public boolean verificateBannerMessage(ServerResponse response) {
+        if (!response.is_multiline) {
+            if (response.code == 200) {
+                if (response.line.contains("Text frequency analysis server")) {
+                    return true;
+                }
+            }
+        }
+        return false;
+    }
+    
+    public void disconnect() throws IOException {
+        s.close();
+    }
     /**
      * Устанавливает режим передачи и выставляет требуемый конвертер.
      * 

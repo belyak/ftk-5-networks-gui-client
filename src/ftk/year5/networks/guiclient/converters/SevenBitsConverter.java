@@ -1,6 +1,6 @@
 package ftk.year5.networks.guiclient.converters;
 
-import ftk.year5.networks.guiclient.ServerResponse;
+import ftk.year5.networks.guiclient.connection.ServerResponse;
 
 public class SevenBitsConverter implements ConverterInterface {
     public SevenBitsConverter() {

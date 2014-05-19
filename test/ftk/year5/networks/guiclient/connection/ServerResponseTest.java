@@ -1,5 +1,6 @@
-package ftk.year5.networks.gui.client;
+package ftk.year5.networks.guiclient.connection;
 
+import ftk.year5.networks.guiclient.connection.ServerResponse;
 import static org.junit.Assert.assertEquals;
 import org.junit.Test;
 
