@@ -532,16 +532,28 @@ public class MainApplication extends javax.swing.JFrame {
         }       
     }
     
+    private void updateInterfaceWithActualMode() {
+        ConverterInterface.MODE convertingMode = connection.getConvertingMode();
+        switch (convertingMode) {
+            case MODE_PLAIN: plainModeRadioButton.setSelected(true); break;
+            case MODE_7BITS: sevenBitModeRadioButton.setSelected(true); break;
+            case MODE_BASE64: base64ModeRadioButton.setSelected(true); break;
+        }
+    }
+    
     private void plainModeRadioButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_plainModeRadioButtonActionPerformed
         modeChangeActionPerformed(ConverterInterface.MODE.MODE_PLAIN);
+        updateInterfaceWithActualMode();
     }//GEN-LAST:event_plainModeRadioButtonActionPerformed
 
     private void sevenBitModeRadioButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_sevenBitModeRadioButtonActionPerformed
         modeChangeActionPerformed(ConverterInterface.MODE.MODE_7BITS);
+        updateInterfaceWithActualMode();
     }//GEN-LAST:event_sevenBitModeRadioButtonActionPerformed
 
     private void base64ModeRadioButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_base64ModeRadioButtonActionPerformed
         modeChangeActionPerformed(ConverterInterface.MODE.MODE_BASE64);
+        updateInterfaceWithActualMode();
     }//GEN-LAST:event_base64ModeRadioButtonActionPerformed
 
     /**

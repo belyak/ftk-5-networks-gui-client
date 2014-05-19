@@ -75,6 +75,10 @@ public class LGSBaseConnection {
         return false;
     }
     
+    public ConverterInterface.MODE getConvertingMode() {
+        return convertingMode;
+    }
+    
     public void disconnect() throws IOException {
         s.close();
     }
