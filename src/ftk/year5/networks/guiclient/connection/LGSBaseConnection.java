@@ -37,6 +37,8 @@ public class LGSBaseConnection {
     
     protected SevenBitsConverter sbits_encoder;
     
+    protected String [] supportedCommands;
+    
     /**
      * Конструктор соединения
      * 
@@ -64,15 +66,57 @@ public class LGSBaseConnection {
         out = new DataOutputStream(sout);
     }
     
-    public boolean verificateBannerMessage(ServerResponse response) {
-        if (!response.is_multiline) {
-            if (response.code == 200) {
-                if (response.line.contains("Text frequency analysis server")) {
-                    return true;
-                }
+    /**
+     * Проверка на то, что соединение установлено с сервером LGS
+     * 
+     * @param response первый ответ сервера
+     * @return сервер является сервером LGS
+     */
+    public boolean verificateServer(ServerResponse response) {
+        boolean verification_result = verificateBannerMessage(response);
+        supportedCommands = extractAvailableCommandsMnemonics(response);
+        verification_result &= (supportedCommands != null);
+        return verification_result;
+    }
+    
+    /**
+     * Минимальная проверка на то, что соединение установлено с сервером LGS
+     * 
+     * @param response первое сообщение полученное от сервера
+     * @return присоединились к тому серверу
+     */
+    boolean verificateBannerMessage(ServerResponse response) {
+        if (!response.is_multiline && response.code == 200) {
+            if (response.line.contains("Text frequency analysis server")) {
+                return true;
             }
         }
         return false;
+    }
+    
+    /**
+     * Извлечение списка поддерживаемых команд из BannerMessage
+     * 
+     * @param response первое сообщение полученное от сервера
+     * @return список мнемоник поддерживаемых комманд
+     */
+    protected String [] extractAvailableCommandsMnemonics(ServerResponse response) {
+        if (!response.is_multiline && response.code == 200) {
+            String line = response.line;
+            String startStr = "SC:";
+            int startIx = line.indexOf(startStr);
+            if (startIx == -1) {
+                return null;
+            }
+            int endIx = line.indexOf(".", startIx);
+            if (endIx == -1) {
+                return null;
+            }
+            
+            String availableMnemonics = line.substring(startIx + startStr.length(), endIx);
+            return availableMnemonics.split(",");
+        }
+        return null;
     }
     
     public ConverterInterface.MODE getConvertingMode() {

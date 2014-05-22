@@ -438,7 +438,8 @@ public class MainApplication extends javax.swing.JFrame {
             connection = new LGSConnection(host, port);
             connection.connect();
             ServerResponse response = connection.getResponse();
-            if (connection.verificateBannerMessage(response)) {
+            boolean serverIsLGS = connection.verificateServer(response);
+            if (serverIsLGS) {
                 printResponse(response);
                 switchConnectedInterface(true);
             } else {
