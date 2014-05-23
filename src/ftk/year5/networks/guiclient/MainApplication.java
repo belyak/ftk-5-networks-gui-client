@@ -8,6 +8,7 @@ package ftk.year5.networks.guiclient;
 
 import ftk.year5.networks.guiclient.connection.CmdMnemonics;
 import ftk.year5.networks.guiclient.connection.LGSConnection;
+import ftk.year5.networks.guiclient.connection.ServerProperties;
 import ftk.year5.networks.guiclient.connection.ServerResponse;
 import ftk.year5.networks.guiclient.converters.ConverterInterface;
 import java.io.IOException;
@@ -20,6 +21,7 @@ import java.util.logging.Logger;
  */
 public class MainApplication extends javax.swing.JFrame {
     LGSConnection connection;
+    ServerProperties srvProperties;
     /**
      * Creates new form mainApplication
      */
@@ -406,34 +408,34 @@ public class MainApplication extends javax.swing.JFrame {
         
         operationsPanel.setEnabled(isConnected);
         
-        if (connection.commandIsSupported(CmdMnemonics.VERSION)) {
+        if (srvProperties.commandIsSupported(CmdMnemonics.VERSION)) {
             getVersionButton.setEnabled(isConnected);
             versionLabel.setEnabled(isConnected);
         }
         
-        if (connection.commandIsSupported(CmdMnemonics.PUT_LINE)) {
+        if (srvProperties.commandIsSupported(CmdMnemonics.PUT_LINE)) {
             putLineField.setEnabled(isConnected);
             putLineButton.setEnabled(isConnected);
         }
         
-        if (connection.commandIsSupported(CmdMnemonics.CALCULATE)) {
+        if (srvProperties.commandIsSupported(CmdMnemonics.CALCULATE)) {
             calculateStatisticsButtton.setEnabled(isConnected);
         }
-        if (connection.commandIsSupported(CmdMnemonics.PRINT_STATISTICS)) {
+        if (srvProperties.commandIsSupported(CmdMnemonics.PRINT_STATISTICS)) {
             printStatisticsButton.setEnabled(isConnected);
         }
         
         boolean statisticsNameIsNeeded = false;
         
-        if (connection.commandIsSupported(CmdMnemonics.SAVE_STATISTICS)) {
+        if (srvProperties.commandIsSupported(CmdMnemonics.SAVE_STATISTICS)) {
             saveStatisticsButton.setEnabled(isConnected);
             statisticsNameIsNeeded = true;
         }
-        if (connection.commandIsSupported(CmdMnemonics.LOAD_STATISTICS)) {
+        if (srvProperties.commandIsSupported(CmdMnemonics.LOAD_STATISTICS)) {
             loadStatisticsButton.setEnabled(isConnected);
             statisticsNameIsNeeded = true;
         }
-        if (connection.commandIsSupported(CmdMnemonics.MERGE_STATISTICS)) {
+        if (srvProperties.commandIsSupported(CmdMnemonics.MERGE_STATISTICS)) {
             mergeStatisticsButton.setEnabled(isConnected);
             statisticsNameIsNeeded = true;
         }
@@ -445,15 +447,15 @@ public class MainApplication extends javax.swing.JFrame {
         
         responsesTextArea.setEnabled(isConnected);
         
-        if (connection.commandIsSupported(CmdMnemonics.MODE)) {
+        if (srvProperties.commandIsSupported(CmdMnemonics.MODE)) {
             transferModeLabel.setEnabled(isConnected);
-            if (connection.modeIsSupported(ConverterInterface.MODE.MODE_PLAIN)) {
+            if (srvProperties.modeIsSupported(ConverterInterface.MODE.MODE_PLAIN)) {
                 plainModeRadioButton.setEnabled(isConnected);
             }
-            if (connection.modeIsSupported(ConverterInterface.MODE.MODE_7BITS)) {
+            if (srvProperties.modeIsSupported(ConverterInterface.MODE.MODE_7BITS)) {
                 sevenBitModeRadioButton.setEnabled(isConnected);
             }
-            if (connection.modeIsSupported(ConverterInterface.MODE.MODE_BASE64)) {
+            if (srvProperties.modeIsSupported(ConverterInterface.MODE.MODE_BASE64)) {
                 base64ModeRadioButton.setEnabled(isConnected);
             }
         }
@@ -467,7 +469,9 @@ public class MainApplication extends javax.swing.JFrame {
             connection = new LGSConnection(host, port);
             connection.connect();
             ServerResponse response = connection.getResponse();
-            boolean serverIsLGS = connection.verificateServer(response);
+            srvProperties = new ServerProperties(response);
+            
+            boolean serverIsLGS = srvProperties.verificateServer(response);
             if (serverIsLGS) {
                 printResponse(response);
                 switchConnectedInterface(true);
