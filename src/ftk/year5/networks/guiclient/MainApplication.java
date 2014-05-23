@@ -447,9 +447,15 @@ public class MainApplication extends javax.swing.JFrame {
         
         if (connection.commandIsSupported(CmdMnemonics.MODE)) {
             transferModeLabel.setEnabled(isConnected);
-            plainModeRadioButton.setEnabled(isConnected);
-            sevenBitModeRadioButton.setEnabled(isConnected);
-            base64ModeRadioButton.setEnabled(isConnected);
+            if (connection.modeIsSupported(ConverterInterface.MODE.MODE_PLAIN)) {
+                plainModeRadioButton.setEnabled(isConnected);
+            }
+            if (connection.modeIsSupported(ConverterInterface.MODE.MODE_7BITS)) {
+                sevenBitModeRadioButton.setEnabled(isConnected);
+            }
+            if (connection.modeIsSupported(ConverterInterface.MODE.MODE_BASE64)) {
+                base64ModeRadioButton.setEnabled(isConnected);
+            }
         }
     }
     
