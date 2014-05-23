@@ -16,6 +16,7 @@ import java.io.InputStream;
 import java.io.OutputStream;
 import java.net.Socket;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 /**
@@ -37,7 +38,7 @@ public class LGSBaseConnection {
     
     protected SevenBitsConverter sbits_encoder;
     
-    protected String [] supportedCommands;
+    protected List<String> supportedCommands;
     
     /**
      * Конструктор соединения
@@ -74,8 +75,12 @@ public class LGSBaseConnection {
      */
     public boolean verificateServer(ServerResponse response) {
         boolean verification_result = verificateBannerMessage(response);
-        supportedCommands = extractAvailableCommandsMnemonics(response);
-        verification_result &= (supportedCommands != null);
+        String [] extractedCommands = extractAvailableCommandsMnemonics(response);
+        verification_result &= (extractedCommands != null);
+        if (verification_result) {
+            supportedCommands = new ArrayList<>();
+            supportedCommands.addAll(Arrays.asList(extractedCommands));
+        }
         return verification_result;
     }
     
@@ -94,6 +99,13 @@ public class LGSBaseConnection {
         return false;
     }
     
+    /**
+     * Проверяет, поддерживается ли комманда сервером, с которым установлено
+     * подключение на основании информации, извлеченной из BM
+     */
+    public boolean commandIsSupported(String cmd) {
+        return supportedCommands.contains(cmd);
+    }
     /**
      * Извлечение списка поддерживаемых команд из BannerMessage
      * 

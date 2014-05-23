@@ -6,6 +6,7 @@
 
 package ftk.year5.networks.guiclient;
 
+import ftk.year5.networks.guiclient.connection.CmdMnemonics;
 import ftk.year5.networks.guiclient.connection.LGSConnection;
 import ftk.year5.networks.guiclient.connection.ServerResponse;
 import ftk.year5.networks.guiclient.converters.ConverterInterface;
@@ -405,29 +406,51 @@ public class MainApplication extends javax.swing.JFrame {
         
         operationsPanel.setEnabled(isConnected);
         
-        getVersionButton.setEnabled(isConnected);
-        versionLabel.setEnabled(isConnected);
+        if (connection.commandIsSupported(CmdMnemonics.VERSION)) {
+            getVersionButton.setEnabled(isConnected);
+            versionLabel.setEnabled(isConnected);
+        }
         
-        putLineField.setEnabled(isConnected);
-        putLineButton.setEnabled(isConnected);
+        if (connection.commandIsSupported(CmdMnemonics.PUT_LINE)) {
+            putLineField.setEnabled(isConnected);
+            putLineButton.setEnabled(isConnected);
+        }
         
-        calculateStatisticsButtton.setEnabled(isConnected);
-        printStatisticsButton.setEnabled(isConnected);
+        if (connection.commandIsSupported(CmdMnemonics.CALCULATE)) {
+            calculateStatisticsButtton.setEnabled(isConnected);
+        }
+        if (connection.commandIsSupported(CmdMnemonics.PRINT_STATISTICS)) {
+            printStatisticsButton.setEnabled(isConnected);
+        }
         
-        saveStatisticsButton.setEnabled(isConnected);
-        loadStatisticsButton.setEnabled(isConnected);
-        mergeStatisticsButton.setEnabled(isConnected);
+        boolean statisticsNameIsNeeded = false;
         
-        statisticsNameField.setEnabled(isConnected);
-        statisticsNameLabel.setEnabled(isConnected);
+        if (connection.commandIsSupported(CmdMnemonics.SAVE_STATISTICS)) {
+            saveStatisticsButton.setEnabled(isConnected);
+            statisticsNameIsNeeded = true;
+        }
+        if (connection.commandIsSupported(CmdMnemonics.LOAD_STATISTICS)) {
+            loadStatisticsButton.setEnabled(isConnected);
+            statisticsNameIsNeeded = true;
+        }
+        if (connection.commandIsSupported(CmdMnemonics.MERGE_STATISTICS)) {
+            mergeStatisticsButton.setEnabled(isConnected);
+            statisticsNameIsNeeded = true;
+        }
+        
+        if (statisticsNameIsNeeded) {
+            statisticsNameField.setEnabled(isConnected);
+            statisticsNameLabel.setEnabled(isConnected);
+        }
         
         responsesTextArea.setEnabled(isConnected);
         
-        transferModeLabel.setEnabled(isConnected);
-        plainModeRadioButton.setEnabled(isConnected);
-        sevenBitModeRadioButton.setEnabled(isConnected);
-        base64ModeRadioButton.setEnabled(isConnected);
-        
+        if (connection.commandIsSupported(CmdMnemonics.MODE)) {
+            transferModeLabel.setEnabled(isConnected);
+            plainModeRadioButton.setEnabled(isConnected);
+            sevenBitModeRadioButton.setEnabled(isConnected);
+            base64ModeRadioButton.setEnabled(isConnected);
+        }
     }
     
     private void connectButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_connectButtonActionPerformed

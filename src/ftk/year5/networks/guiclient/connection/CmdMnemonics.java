@@ -6,14 +6,14 @@ package ftk.year5.networks.guiclient.connection;
  * @author andy
  */
 public class CmdMnemonics {
-    static final String VERSION = "ver";
-    static final String EXIT = "exit";
-    static final String MODE = "mode";
-    static final String PUT_LINE = "pl";
-    static final String CLEAR_BUFFER = "cb";
-    static final String CALCULATE = "calc";
-    static final String PRINT_STATISTICS = "ps";
-    static final String LOAD_STATISTICS = "ld";
-    static final String SAVE_STATISTICS = "st";
-    static final String MERGE_STATISTICS = "mrg";
+    static public final String VERSION = "ver";
+    static public final String EXIT = "exit";
+    static public final String MODE = "mode";
+    static public final String PUT_LINE = "pl";
+    static public final String CLEAR_BUFFER = "cb";
+    static public final String CALCULATE = "calc";
+    static public final String PRINT_STATISTICS = "ps";
+    static public final String LOAD_STATISTICS = "ld";
+    static public final String SAVE_STATISTICS = "st";
+    static public final String MERGE_STATISTICS = "mrg";
 }
