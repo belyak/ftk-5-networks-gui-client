@@ -10,7 +10,8 @@ public class CmdMnemonics {
     static public final String EXIT = "exit";
     static public final String MODE = "mode";
     static public final String PUT_LINE = "pl";
-    static public final String CLEAR_BUFFER = "cb";
+    static public final String PUT_TEXT = "pt";
+    static public final String CLEAR_BUFFER = "clear";
     static public final String CALCULATE = "calc";
     static public final String PRINT_STATISTICS = "ps";
     static public final String LOAD_STATISTICS = "ld";

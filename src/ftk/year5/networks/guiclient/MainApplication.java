@@ -61,6 +61,10 @@ public class MainApplication extends javax.swing.JFrame {
         plainModeRadioButton = new javax.swing.JRadioButton();
         sevenBitModeRadioButton = new javax.swing.JRadioButton();
         base64ModeRadioButton = new javax.swing.JRadioButton();
+        jScrollPane2 = new javax.swing.JScrollPane();
+        putTextArea = new javax.swing.JTextArea();
+        putTextButton = new javax.swing.JButton();
+        clearBufferButton = new javax.swing.JButton();
         menuBar = new javax.swing.JMenuBar();
         fileMenu = new javax.swing.JMenu();
         openMenuItem = new javax.swing.JMenuItem();
@@ -220,19 +224,31 @@ public class MainApplication extends javax.swing.JFrame {
             }
         });
 
+        putTextArea.setColumns(20);
+        putTextArea.setRows(5);
+        putTextArea.setEnabled(false);
+        jScrollPane2.setViewportView(putTextArea);
+
+        putTextButton.setText("put text");
+        putTextButton.setEnabled(false);
+
+        clearBufferButton.setText("clear buffer");
+        clearBufferButton.setEnabled(false);
+        clearBufferButton.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                clearBufferButtonActionPerformed(evt);
+            }
+        });
+
         javax.swing.GroupLayout operationsPanelLayout = new javax.swing.GroupLayout(operationsPanel);
         operationsPanel.setLayout(operationsPanelLayout);
         operationsPanelLayout.setHorizontalGroup(
             operationsPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addComponent(jScrollPane1)
             .addGroup(operationsPanelLayout.createSequentialGroup()
-                .addComponent(putLineField)
-                .addGap(18, 18, 18)
-                .addComponent(putLineButton))
-            .addGroup(operationsPanelLayout.createSequentialGroup()
                 .addComponent(statisticsNameLabel)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(statisticsNameField, javax.swing.GroupLayout.DEFAULT_SIZE, 112, Short.MAX_VALUE)
+                .addComponent(statisticsNameField, javax.swing.GroupLayout.DEFAULT_SIZE, 394, Short.MAX_VALUE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(loadStatisticsButton)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
@@ -259,7 +275,19 @@ public class MainApplication extends javax.swing.JFrame {
                 .addComponent(calculateStatisticsButtton)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addComponent(printStatisticsButton)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addComponent(clearBufferButton)
                 .addGap(0, 0, Short.MAX_VALUE))
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, operationsPanelLayout.createSequentialGroup()
+                .addGroup(operationsPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                    .addComponent(jScrollPane2, javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(putLineField))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addGroup(operationsPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(putLineButton)
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, operationsPanelLayout.createSequentialGroup()
+                        .addComponent(putTextButton)
+                        .addContainerGap())))
         );
         operationsPanelLayout.setVerticalGroup(
             operationsPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -278,10 +306,17 @@ public class MainApplication extends javax.swing.JFrame {
                 .addGroup(operationsPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(putLineField, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(putLineButton))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addGroup(operationsPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(operationsPanelLayout.createSequentialGroup()
+                        .addComponent(putTextButton)
+                        .addGap(0, 0, Short.MAX_VALUE))
+                    .addComponent(jScrollPane2, javax.swing.GroupLayout.DEFAULT_SIZE, 114, Short.MAX_VALUE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(operationsPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(calculateStatisticsButtton)
-                    .addComponent(printStatisticsButton))
+                    .addComponent(printStatisticsButton)
+                    .addComponent(clearBufferButton))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(operationsPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(statisticsNameField, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -289,8 +324,8 @@ public class MainApplication extends javax.swing.JFrame {
                     .addComponent(loadStatisticsButton)
                     .addComponent(statisticsNameLabel)
                     .addComponent(mergeStatisticsButton))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 173, Short.MAX_VALUE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 143, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addContainerGap())
         );
 
@@ -413,9 +448,18 @@ public class MainApplication extends javax.swing.JFrame {
             versionLabel.setEnabled(isConnected);
         }
         
+        if (srvProperties.commandIsSupported(CmdMnemonics.CLEAR_BUFFER)) {
+            clearBufferButton.setEnabled(isConnected);
+        }
+        
         if (srvProperties.commandIsSupported(CmdMnemonics.PUT_LINE)) {
             putLineField.setEnabled(isConnected);
             putLineButton.setEnabled(isConnected);
+        }
+        
+        if (srvProperties.commandIsSupported(CmdMnemonics.PUT_TEXT)) {
+            putTextArea.setEnabled(isConnected);
+            putTextButton.setEnabled(isConnected);
         }
         
         if (srvProperties.commandIsSupported(CmdMnemonics.CALCULATE)) {
@@ -590,6 +634,15 @@ public class MainApplication extends javax.swing.JFrame {
         updateInterfaceWithActualMode();
     }//GEN-LAST:event_base64ModeRadioButtonActionPerformed
 
+    private void clearBufferButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_clearBufferButtonActionPerformed
+        try {
+            ServerResponse response = connection.clearBufferCommand();
+            printResponse(response);
+        } catch (IOException ex) {
+            Logger.getLogger(MainApplication.class.getName()).log(Level.SEVERE, null, ex);
+        }
+    }//GEN-LAST:event_clearBufferButtonActionPerformed
+
     /**
      * @param args the command line arguments
      */
@@ -630,6 +683,7 @@ public class MainApplication extends javax.swing.JFrame {
     private javax.swing.JMenuItem aboutMenuItem;
     private javax.swing.JRadioButton base64ModeRadioButton;
     private javax.swing.JButton calculateStatisticsButtton;
+    private javax.swing.JButton clearBufferButton;
     private javax.swing.JButton connectButton;
     private javax.swing.JMenuItem contentsMenuItem;
     private javax.swing.JMenuItem copyMenuItem;
@@ -643,6 +697,7 @@ public class MainApplication extends javax.swing.JFrame {
     private javax.swing.JMenu helpMenu;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JScrollPane jScrollPane1;
+    private javax.swing.JScrollPane jScrollPane2;
     private javax.swing.JButton loadStatisticsButton;
     private javax.swing.JMenuBar menuBar;
     private javax.swing.JButton mergeStatisticsButton;
@@ -653,6 +708,8 @@ public class MainApplication extends javax.swing.JFrame {
     private javax.swing.JButton printStatisticsButton;
     private javax.swing.JButton putLineButton;
     private javax.swing.JTextField putLineField;
+    private javax.swing.JTextArea putTextArea;
+    private javax.swing.JButton putTextButton;
     private javax.swing.JTextArea responsesTextArea;
     private javax.swing.JMenuItem saveAsMenuItem;
     private javax.swing.JMenuItem saveMenuItem;

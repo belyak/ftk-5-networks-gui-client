@@ -9,7 +9,7 @@ public class PlainConverter implements ConverterInterface {
     }
     
     @Override
-    public int get_chunk_size() {
+    public int getChunkSize() {
         return 1;
     }
 

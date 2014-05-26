@@ -116,7 +116,7 @@ public class LGSBaseConnection {
     private String readLine() throws IOException {
         List<Byte> collectedBytes = new ArrayList<>();
        
-        int chunkSize = currentConverter.get_chunk_size();
+        int chunkSize = currentConverter.getChunkSize();
         
         byte in_byte;
         int [] encoded_message_part = new int[chunkSize];

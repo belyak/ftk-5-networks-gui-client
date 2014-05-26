@@ -10,7 +10,7 @@ public interface ConverterInterface {
      */
     enum MODE {MODE_PLAIN, MODE_7BITS, MODE_BASE64}; 
     
-    int get_chunk_size();
+    int getChunkSize();
     
     int[] decode(int[] in_bytes);
 

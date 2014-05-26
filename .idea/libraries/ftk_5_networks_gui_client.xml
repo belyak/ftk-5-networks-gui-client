@@ -1,0 +1,9 @@
+<component name="libraryTable">
+  <library name="ftk-5-networks-gui-client">
+    <CLASSES>
+      <root url="jar://$PROJECT_DIR$/dist/ftk-5-networks-gui-client.jar!/" />
+    </CLASSES>
+    <JAVADOC />
+    <SOURCES />
+  </library>
+</component>

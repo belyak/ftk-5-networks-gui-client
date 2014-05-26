@@ -39,8 +39,9 @@ public class LGSConnection extends LGSBaseConnection {
         return getResponse();
     }
     
-    public void clearBufferCommand() throws IOException {
+    public ServerResponse clearBufferCommand() throws IOException {
         sendCommand(CmdMnemonics.CLEAR_BUFFER);
+        return getResponse();
     }
     
     public ServerResponse calculateStatisticsCommand() throws IOException {
