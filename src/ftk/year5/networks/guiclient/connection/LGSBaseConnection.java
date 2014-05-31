@@ -177,7 +177,7 @@ public class LGSBaseConnection {
         return new String(result);
     }
     
-    private void sendLine(String line) throws IOException {
+    protected void sendLine(String line) throws IOException {
         StringBuilder sb = new StringBuilder(line);
         sb.append(ServerResponse.LINES_DELIMITER);
         String str_msg = new String(sb);

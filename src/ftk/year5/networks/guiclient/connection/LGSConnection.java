@@ -39,6 +39,25 @@ public class LGSConnection extends LGSBaseConnection {
         return getResponse();
     }
     
+    public ServerResponse putTextCommand(String [] lines) throws IOException {
+        String separator = "$";
+        String fullText = "";
+        for (String line: lines) {
+            fullText += line;
+        }
+        
+        while (fullText.contains(separator)) {
+            separator += separator;
+        }
+        
+        sendCommand(CmdMnemonics.PUT_TEXT, separator);
+        for (String line: lines) {
+            sendLine(line);
+        }
+        sendLine(separator);
+        return getResponse();
+    }
+    
     public ServerResponse clearBufferCommand() throws IOException {
         sendCommand(CmdMnemonics.CLEAR_BUFFER);
         return getResponse();
