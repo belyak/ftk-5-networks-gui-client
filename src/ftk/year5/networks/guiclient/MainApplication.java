@@ -231,6 +231,11 @@ public class MainApplication extends javax.swing.JFrame {
 
         putTextButton.setText("put text");
         putTextButton.setEnabled(false);
+        putTextButton.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                putTextButtonActionPerformed(evt);
+            }
+        });
 
         clearBufferButton.setText("clear buffer");
         clearBufferButton.setEnabled(false);
@@ -642,6 +647,16 @@ public class MainApplication extends javax.swing.JFrame {
             Logger.getLogger(MainApplication.class.getName()).log(Level.SEVERE, null, ex);
         }
     }//GEN-LAST:event_clearBufferButtonActionPerformed
+
+    private void putTextButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_putTextButtonActionPerformed
+        try {
+            String [] lines = putTextArea.getText().split("\n");
+            ServerResponse response = connection.putTextCommand(lines);
+            printResponse(response);
+        } catch (IOException ex) {
+            Logger.getLogger(MainApplication.class.getName()).log(Level.SEVERE, null, ex);
+        }
+    }//GEN-LAST:event_putTextButtonActionPerformed
 
     /**
      * @param args the command line arguments
