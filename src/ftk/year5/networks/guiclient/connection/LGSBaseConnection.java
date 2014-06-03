@@ -1,9 +1,3 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
-
 package ftk.year5.networks.guiclient.connection;
 
 import ftk.year5.networks.guiclient.converters.ConverterInterface;
@@ -19,9 +13,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 /**
- * Соединение с сервером с возможностью отправки комманд и получения ответа.
- * 
- * @author andy
+ * Соединение с сервером с возможностью отправки комманд и получения ответа
  */
 public class LGSBaseConnection {
     protected String host;

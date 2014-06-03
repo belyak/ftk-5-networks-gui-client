@@ -3,11 +3,8 @@ package ftk.year5.networks.guiclient.connection;
 import java.util.ArrayList;
 import java.util.List;
 
-
 /**
  * Ответ сервера
- * 
- * @author andy
  */
 public class ServerResponse {
     public static String LINES_DELIMITER = "\r\n";
