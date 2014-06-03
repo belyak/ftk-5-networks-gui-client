@@ -9,6 +9,6 @@ public class LGSClient {
      * @throws java.io.IOException
      */
     public static void main(String[] args) throws IOException {
-          MainApplication.main(args);
+          MainFrame.main(args);
     }
 }
